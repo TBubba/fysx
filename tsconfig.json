@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "target": "es5",
+    "sourceMap": true,
+    "lib": ["es2015.promise", "es5", "dom"],
+    "typeRoots" : ["./@types", "./node_modules/@types"],
+    "declaration": true,
+    "outDir": "build",
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "./@types/**/*",
+    "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
