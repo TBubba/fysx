@@ -4,8 +4,8 @@
   "description": "Physics Library for JavaScript",
   "main": "dist/index.js",
   "scripts": {
-    "watch": "npx tsc",
-    "build": "npx tsc -w",
+    "build": "npx tsc",
+    "watch": "npx tsc -w",
     "dist": "npx webpack"
   },
   "author": "Jesper Gustafsson",
