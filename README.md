@@ -1,5 +1,5 @@
 # FYSX
-FYSX is a physics library for JavaScript. It's designed to be flexible and extendible.
+FYSX is a physics library written in TypeScript. It's designed to be flexible and extendible.
 
 ```
 npm i fysx
@@ -30,7 +30,7 @@ Types of constraints:
 
 A ``Mesh`` is a polygon which has vertices as corners. It has no impact on the physics simulation. It can be used to texture bodies, or otherwise render parts of the simulation.
 
-## Body
+### Body
 
 ``Body`` is a group of vertices, constraints and meshes.
 
