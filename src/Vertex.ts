@@ -23,6 +23,11 @@ export class Vertex implements IVertex {
   }
 }
 
+/**
+ * "Integrate" an array of vertices, moving them forward one "time step".
+ * @param vertices Vertices to "integrate"
+ * @param world World the vertices are part of
+ */
 export function integrateVertices(vertices: IVertex[], world: IWorld): void {
   const length = vertices.length;
   for (let i = 0; i < length; i++) {
