@@ -22,10 +22,15 @@ function init() {
   // Create a bunch of boxes
   for (let y = 0; y < 6; y++) {
     for (let x = 0; x < 10; x++) {
-      world.addBody(createBox(new FYSX.Vec2(
-        60 * (x + 1),
-        60 * (y + 1)
-      )));
+      const body = FYSX.createRectangleBody(
+        new FYSX.Vec2(
+          60 * (x + 1),
+          60 * (y + 1)
+        ),
+        new FYSX.Vec2(50, 50)
+      );
+      body.gravity.set(0, 0.2);
+      world.addBody(body);
     }
   }
 
@@ -56,10 +61,4 @@ function init() {
       }
     }
   });
-}
-
-function createBox(position: FYSX.IPoint) {
-  const body = FYSX.createRectangleBody(position, new FYSX.Vec2(50, 50));
-  body.gravity.set(0, 0.2);
-  return body;
 }
