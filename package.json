@@ -1,8 +1,8 @@
 {
   "name": "fysx",
   "version": "0.0.1",
-  "description": "Physics Library for JavaScript",
   "main": "dist/index.js",
+  "description": "2D Physics Library",
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc -w",
