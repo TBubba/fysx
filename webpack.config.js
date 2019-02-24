@@ -1,9 +1,9 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/main.ts',
   output: {
-    filename: 'main.bundle.js',
+    filename: 'fysx.js',
     path: path.resolve(__dirname, './dist'),
   },
   devtool: 'source-map',

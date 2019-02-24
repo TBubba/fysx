@@ -6,15 +6,21 @@
   "scripts": {
     "build": "npx tsc",
     "watch": "npx tsc -w",
-    "dist": "npx webpack"
+    "dist": "npx webpack --mode production",
+    "publish": "npm run build && npm run dist && npm publish",
+    "example:console": "npx ts-node ./examples/console/index.ts",
+    "example:pixi": "npx webpack-dev-server --config examples/pixi/webpack.config.js"
   },
   "author": "Jesper Gustafsson",
   "license": "MIT",
   "devDependencies": {
+    "pixi.js": "^5.0.0-rc.2",
     "ts-loader": "5.3.3",
+    "ts-node": "^8.0.2",
     "typescript": "3.3.3",
     "webpack": "4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.2.0"
   },
   "dependencies": {}
 }
