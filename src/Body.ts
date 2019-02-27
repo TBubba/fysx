@@ -65,7 +65,7 @@ export class Body<T = any> extends EventEmitter implements IBody<T> {
 
   removeConstraint(constraint: IConstraint): boolean {
     const index = this.constraints.indexOf(constraint);
-    if (index) { return false; }
+    if (index === -1) { return false; }
     this.constraints.splice(index, 1);
     
     const edgeIndex = this.edges.indexOf(constraint);
