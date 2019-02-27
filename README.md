@@ -1,5 +1,37 @@
-# FYSX
-FYSX is a physics library written in TypeScript. It's designed to be flexible and extendible.
+<div style="text-align: center;">
+  <h1>FYSX</h1>
+  <p>The Extendable 2D Physics Library for the Web & Node.</p>
+</div>
+
+```typescript
+import * as FYSX from 'fysx';
+
+// Create a world
+const world = new FYSX.World();
+
+// Enable the world border and set it's size
+world.hasBorders = true;
+world.width = 800;
+world.height = 600;
+
+// Populate the world with randomly positioned bodies
+const size = new FYSX.Vec2(50, 50);
+for (let i = 0; i < 50; i++) {
+  const pos = new FYSX.Vec2(
+    (world.width  - size.x) * Math.random(),
+    (world.height - size.y) * Math.random()
+  );
+  const body = FYSX.createRectangleBody(pos, size);
+  world.addBody(body);
+}
+
+// Simulate the world for a bit
+for (let i = 0; i < 100; i++) {
+  world.frame();
+}
+```
+
+## Install
 
 ```
 npm i fysx
@@ -37,3 +69,7 @@ A ``Mesh`` is a polygon which has vertices as corners. It has no impact on the p
 ### World
 
 A ``World`` is where all the vertices, constraints, meshes and bodies live. Only physical objects in the same world can interact with each other.
+
+## Links
+
+[npm page](https://www.npmjs.com/package/fysx)
