@@ -1,6 +1,6 @@
 {
   "name": "fysx",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Extendable 2D Physics Library for the Web & Node",
   "keywords": [ "2d", "physics", "library", "extendable", "browser", "web", "node" ],
   "main": "build/index.js",
