@@ -12,6 +12,8 @@
     "example:pixi": "npx webpack-dev-server --config examples/pixi/webpack.config.js"
   },
   "author": "Jesper Gustafsson",
+  "homepage": "https://github.com/TBubba/fysx",
+  "repository": "github:TBubba/fysx",
   "license": "MIT",
   "devDependencies": {
     "pixi.js": "^5.0.0-rc.2",
