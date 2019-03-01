@@ -14,7 +14,7 @@ export interface ICreateBodyOptsMesh {
   /** Indices of the body. */
   indices: number[];
   /** UVs of the body. */
-  uvs: number[];
+  uvs: IPoint[];
 }
 
 export interface ICreateBodyOpts {
@@ -63,7 +63,7 @@ export function createBody(opts: ICreateBodyOpts): Body {
         texture:  bmk.texture,
         vertices: [],
         indices:  bmk.indices.slice(),
-        uvs:      bmk.uvs.slice()
+        uvs:      bmk.uvs.map(uv => ({ x: uv.x, y: uv.y })),
       };
       for (let i = bmk.vertices.length - 1; i >= 0; i--) {
         const vertexKey = bmk.vertices[i];

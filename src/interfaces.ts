@@ -2,6 +2,7 @@ import { IBody } from './Body';
 import { IVertex } from './Vertex';
 import { IVec2 } from './Vec2';
 import { EventEmitter } from './EventEmitter';
+import { IPerfDict } from './PerfDict';
 
 /** Generic Dictionary Type. */
 export type IDict<T> = { [key: string]: T };
@@ -13,9 +14,9 @@ export interface IPoint {
 }
 
 /** Verlet Constraint */
-export interface IConstraint {
+export interface IConstraint<T = any> {
   /** Body the constraint belongs to. */
-  parent: IBody;
+  parent: IBody<T>;
   /**
    * If this constraint is an edge.
    * Edge constraints can collide with other constraint, non-edge constraint can not.
@@ -37,13 +38,13 @@ export interface IConstraint {
  * A polygon with its corners defined by vertices.
  * Mainly used for rendering a whole, or parts of a, body.
  */
-export interface IMesh {
-  parent: IBody;
+export interface IMesh<T = any> {
+  parent: IBody<T>;
   name: string;
   texture: any;
-  vertices: IVertex[];
+  vertices: IVertex<T>[];
   indices: number[];
-  uvs: number[];
+  uvs: IPoint[];
 }
 
 /** A rectangular shape. */
@@ -69,9 +70,15 @@ export interface ILineIntersectionResult {
 }
 
 /** An object that can collide and be collided with. */
-export interface ICollidable extends EventEmitter {
-  gravity: IPoint;
+export interface ICollidable<T> extends EventEmitter {
+  vertices: IPerfDict<IVertex>;
+  layers: number;
+  gravity: IVec2;
+  data: T | undefined;
   mass: number;
   /** If the object can not be moved from collisions. */
   isImmovable: boolean;
+  
+  /** Update the bounding box (center and halfEx). */
+  updateBoundingBox(): void;
 }

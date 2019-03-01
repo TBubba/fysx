@@ -7,8 +7,8 @@ import { isBodyInZone } from './util';
 import { IEventEmitter, EventEmitter } from './EventEmitter';
 
 interface ICollisionLink {
-  c0: ICollidable;
-  c1: ICollidable;
+  c0: ICollidable<any>;
+  c1: ICollidable<any>;
 }
 
 export interface IWorld extends IEventEmitter {

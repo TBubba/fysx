@@ -2,21 +2,21 @@ import { IVec2, Vec2 } from './Vec2';
 import { IWorld } from './World';
 import { IPoint, ICollidable } from './interfaces';
 
-export interface IVertex {
-  parent: ICollidable;
+export interface IVertex<T = any> {
+  parent: ICollidable<T>;
   position: IVec2;
   oldPosition: IVec2;
   /** If this should be "integrated" on each world frame. */
   doIntegrate: boolean;
 }
 
-export class Vertex implements IVertex {
-  parent: ICollidable;
+export class Vertex<T> implements IVertex<T> {
+  parent: ICollidable<T>;
   position: IVec2 = new Vec2();
   oldPosition: IVec2 = new Vec2();
   doIntegrate: boolean = true;
 
-  constructor(parent: ICollidable, pos: IPoint) {
+  constructor(parent: ICollidable<T>, pos: IPoint) {
     this.parent = parent;
     this.position.copy(pos);
     this.oldPosition.copy(pos);

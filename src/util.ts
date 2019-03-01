@@ -11,11 +11,8 @@ export function createBoundingBox(): IBoundingBox {
   };
 }
 
-export function createAxis(): IAxis {
-  return {
-    min: 0,
-    max: 0
-  };
+export function createAxis(min: number = 0, max: number = 0): IAxis {
+  return { min, max };
 }
 
 /**
@@ -78,14 +75,14 @@ export function projectAxis(vertices: IVertex[], vector: IPoint, axis?: IAxis): 
  * @returns If the body is inside the zone.
  */
 export function isPointInsideZone(point: IPoint, zone: IZone): boolean {
-  if (zone.vertices.length === 0) { return false; }
+  if (zone.vertices.array.length === 0) { return false; }
 
   // A point outside the shape
   const outside = new Vec2(zone.center.x - zone.halfEx.x - 1,
                            zone.center.y - zone.halfEx.y - 1);
 
   // Count the number of edges the line (between outside and point) collides with
-  const verts = zone.vertices;
+  const verts = zone.vertices.array;
   let p0;
   let p1 = verts[0];
   let cols = 0;

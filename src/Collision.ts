@@ -1,22 +1,11 @@
 import { IWorld } from './World';
 import { IVec2, Vec2 } from './Vec2';
-import { IConstraint } from './interfaces';
+import { IConstraint, IAxis } from './interfaces';
 import { IVertex } from './Vertex';
 import { IBody } from './Body';
+import { createAxis, projectAxis } from './util';
 
 export interface ICollision {
-  world: IWorld | undefined;
-  testAxis: IVec2;
-  axis: IVec2;
-  center: IVec2;
-  line: IVec2;
-  response: IVec2;
-  relVel: IVec2;
-  tangent: IVec2;
-  relTanVel: IVec2;
-  depth: number;
-  edge: IConstraint | undefined;
-  vertex: IVertex | undefined;
   /**
    * Separating Axis Theorem collision test between two bodies. This checks whether or not
    * two bodies collide with each other and has to be resolved.
@@ -36,6 +25,8 @@ export interface ICollision {
 export class Collision implements ICollision {
   world: IWorld | undefined;
   testAxis: IVec2 = new Vec2();
+  b0Axis: IAxis = createAxis();
+  b1Axis: IAxis = createAxis();
   axis: IVec2 = new Vec2();
   center: IVec2 = new Vec2();
   line: IVec2 = new Vec2();
@@ -75,10 +66,10 @@ export class Collision implements ICollision {
       // Calculate the perpendicular to this edge and normalize it
       this.testAxis.normal(edge.getPosition0(), edge.getPosition1());
       // Project both bodies onto the normal
-      B0.projectAxis(this.testAxis);
-      B1.projectAxis(this.testAxis);
+      projectAxis(B0.vertices.array, this.testAxis, this.b0Axis);
+      projectAxis(B1.vertices.array, this.testAxis, this.b1Axis);
       //Calculate the distance between the two intervals
-      const dist = B0.min < B1.min ? B1.min - B0.max : B0.min - B1.max;
+      const dist = this.b0Axis.min < this.b1Axis.min ? this.b1Axis.min - this.b0Axis.max : this.b0Axis.min - this.b1Axis.max;
       // If the intervals don't overlap, return, since there is no collision
       if (dist > 0) return false;
       else if (Math.abs(dist) < minDistance) {
