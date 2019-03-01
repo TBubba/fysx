@@ -1,6 +1,6 @@
 <div style="text-align: center;">
   <h1>FYSX</h1>
-  <p>The Extendable 2D Physics Library for the Web & Node.</p>
+  <p>The Extensible 2D Physics Library for the Web & Node.</p>
 </div>
 
 ```typescript
