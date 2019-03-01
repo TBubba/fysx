@@ -43,7 +43,7 @@ Check out the examples in the ``examples`` folder.
 
 ## Overview
 
-FYSX's physics algorithm is based on Verlet integration. So vertices and constraints are the "fundamental building blocks" of the physical world.
+FYSX's physics algorithm is based on Verlet integration.
 
 ### Vertex
 
@@ -58,13 +58,17 @@ Types of constraints:
 * *Leash Constraint:* Force one vertex to stay within a radius of the other vertex by pulling the vertex inside the radius when it's outside.
 * *Pin Constraint:* Pins a vertex to a point in space. The vertex is forced to stay at that point at all times.
 
+### Edge
+
+An ``Edge`` is a "solid" line between two vertices. Edges and vertices are the only things that can collide with each other (a collision is **always** between an edge and a vertex).
+
 ### Body
 
-``Body`` is a group of vertices and constraints.
+``Body`` is a group of vertices, constraints and edges.
 
 ### World
 
-A ``World`` is where all the vertices, constraints and bodies live. Only physical objects in the same world can interact with each other.
+A ``World`` is where all the vertices, constraints, edges and bodies live. Only physical objects in the same world can interact with each other.
 
 ## Links
 
