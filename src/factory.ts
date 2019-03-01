@@ -1,4 +1,4 @@
-import { IDict, IMesh, IPoint } from './interfaces';
+import { IDict, IPoint } from './interfaces';
 import { Body } from './Body';
 import { Vertex } from './Vertex';
 import { DistanceConstraint } from './constraints';
@@ -9,17 +9,6 @@ export type ICreateBodyOptsConstraint = [string, string];
 
 /** ([v0 key, v1 key]) */
 export type ICreateBodyOptsEdge = [string, string];
-
-export interface ICreateBodyOptsMesh {
-  /** Keys of the vertices the mesh consists of. The order is preserved. */
-  vertices: string[];
-  /** Texture or something??? */
-  texture: any;
-  /** Indices of the body. */
-  indices: number[];
-  /** UVs of the body. */
-  uvs: IPoint[];
-}
 
 export interface ICreateBodyOpts {
   /** Mass of the Body. */
@@ -32,8 +21,6 @@ export interface ICreateBodyOpts {
   constraints?: ICreateBodyOptsConstraint[];
   /** Edges to add to the body. */
   edges?: ICreateBodyOptsEdge[];
-  /** Meshes to add to the body. */
-  meshes?: ICreateBodyOptsMesh[];
 }
 
 export function createBody(opts: ICreateBodyOpts): Body {
@@ -69,27 +56,6 @@ export function createBody(opts: ICreateBodyOpts): Body {
       const edge = new Edge(body, v0, v1);
       body.edges.push(edge);
     }    
-  }
-  
-  if (opts.meshes) {
-    for (let key in opts.meshes) {
-      const bmk = opts.meshes[key];
-      const mesh: IMesh = {
-        parent:   body,
-        name:     key,
-        texture:  bmk.texture,
-        vertices: [],
-        indices:  bmk.indices.slice(),
-        uvs:      bmk.uvs.map(uv => ({ x: uv.x, y: uv.y })),
-      };
-      for (let i = bmk.vertices.length - 1; i >= 0; i--) {
-        const vertexKey = bmk.vertices[i];
-        const vertex = body.vertices.dict[vertexKey];
-        if (!vertex) { throw new Error(`The vertex key in mesh options is not in use (mesh key: "${key}", vertex key: "${vertexKey}").`); }
-        mesh.vertices[i] = vertex;
-      }
-      body.meshes.push(mesh);
-    }
   }
   
   return body;

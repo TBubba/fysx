@@ -29,19 +29,6 @@ export interface IConstraint<T = any> {
   solve(): void;
 }
 
-/**
- * A polygon with its corners defined by vertices.
- * Mainly used for rendering a whole, or parts of a, body.
- */
-export interface IMesh<T = any> {
-  parent: IBody<T>;
-  name: string;
-  texture: any;
-  vertices: IVertex<T>[];
-  indices: number[];
-  uvs: IPoint[];
-}
-
 /** A rectangular shape. */
 export interface IBoundingBox {
   /** Center of the bounding box. */

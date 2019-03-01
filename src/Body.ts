@@ -1,5 +1,5 @@
 import { IVertex } from './Vertex';
-import { IConstraint, IMesh, IBoundingBox, ICollidable } from './interfaces';
+import { IConstraint, IBoundingBox, ICollidable } from './interfaces';
 import { IVec2, Vec2 } from './Vec2';
 import { IPerfDict, PerfDict } from './PerfDict';
 import { calculateBodyBoundingBox } from './util';
@@ -10,7 +10,6 @@ import { IEdge } from './Edge';
 export interface IBody<T = any> extends IBoundingBox, ICollidable<T> {
   edges: IEdge<T>[];
   constraints: IConstraint<T>[];
-  meshes: IMesh<T>[];
   
   /**
    * Add a constraint.
@@ -29,7 +28,6 @@ export class Body<T = any> extends EventEmitter implements IBody<T> {
   vertices: IPerfDict<IVertex<T>> = new PerfDict();
   edges: IEdge<T>[] = [];
   constraints: IConstraint<T>[] = [];
-  meshes: IMesh<T>[] = [];
   center: IVec2 = new Vec2();
   halfEx: IVec2 = new Vec2();
   mass: number = 1;

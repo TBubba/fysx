@@ -58,17 +58,13 @@ Types of constraints:
 * *Leash Constraint:* Force one vertex to stay within a radius of the other vertex by pulling the vertex inside the radius when it's outside.
 * *Pin Constraint:* Pins a vertex to a point in space. The vertex is forced to stay at that point at all times.
 
-### Mesh
-
-A ``Mesh`` is a polygon which has vertices as corners. It has no impact on the physics simulation. It can be used to texture bodies, or otherwise render parts of the simulation.
-
 ### Body
 
-``Body`` is a group of vertices, constraints and meshes.
+``Body`` is a group of vertices and constraints.
 
 ### World
 
-A ``World`` is where all the vertices, constraints, meshes and bodies live. Only physical objects in the same world can interact with each other.
+A ``World`` is where all the vertices, constraints and bodies live. Only physical objects in the same world can interact with each other.
 
 ## Links
 
