@@ -8,14 +8,14 @@ import { IVec2 } from '../Vec2';
  * It attempts to keep the distance between two vertices constant by pulling or
  * pushing them (towards / away from each other).
  */
-export class DistanceConstraint implements IConstraint {
-  parent: IBody;
-  v0: IVertex;
-  v1: IVertex;
+export class DistanceConstraint<T extends IBody> implements IConstraint<T> {
+  parent: T;
+  v0: IVertex<T>;
+  v1: IVertex<T>;
   /** Target distance squared (squared for performance reasons) */
   dist2: number = 0;
 
-  constructor(parent: IBody, v0: IVertex, v1: IVertex) {
+  constructor(parent: T, v0: IVertex<T>, v1: IVertex<T>) {
     this.parent = parent;
     this.v0 = v0;
     this.v1 = v1;

@@ -1,8 +1,6 @@
-import { IBody } from './Body';
-import { IVertex } from './Vertex';
 import { IVec2 } from './Vec2';
 import { EventEmitter } from './EventEmitter';
-import { IPerfDict } from './PerfDict';
+import { IBody } from './Body';
 
 /** Generic Dictionary Type. */
 export type IDict<T> = { [key: string]: T };
@@ -14,9 +12,9 @@ export interface IPoint {
 }
 
 /** Verlet Constraint */
-export interface IConstraint<T = any> {
+export interface IConstraint<T extends IBody = IBody> {
   /** Body the constraint belongs to. */
-  parent: IBody<T>;
+  parent: T;
   /** Get the first position. */
   getPosition0(): IVec2;
   /** Get the second position. */
@@ -52,15 +50,9 @@ export interface ILineIntersectionResult {
 }
 
 /** An object that can collide and be collided with. */
-export interface ICollidable<T> extends EventEmitter {
-  vertices: IPerfDict<IVertex>;
+export interface IWorldObject extends EventEmitter {
+  /** The layers this can interact on. */
   layers: number;
-  gravity: IVec2;
-  data: T | undefined;
-  mass: number;
-  /** If the object can not be moved from collisions. */
-  isImmovable: boolean;
-  
   /** Update the bounding box (center and halfEx). */
   updateBoundingBox(): void;
 }

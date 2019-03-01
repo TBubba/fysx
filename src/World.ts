@@ -1,4 +1,4 @@
-import { IConstraint, ICollidable } from './interfaces';
+import { IConstraint, IWorldObject } from './interfaces';
 import { IVertex, integrateVertices } from './Vertex';
 import { IZone } from './Zone';
 import { IBody } from './Body';
@@ -8,8 +8,8 @@ import { IEventEmitter, EventEmitter } from './EventEmitter';
 import { IEdge } from './Edge';
 
 interface ICollisionLink {
-  c0: ICollidable<any>;
-  c1: ICollidable<any>;
+  c0: IWorldObject;
+  c1: IWorldObject;
 }
 
 export interface IWorld extends IEventEmitter {
@@ -29,9 +29,9 @@ export interface IWorld extends IEventEmitter {
 
   bodies: IBody[];
   zones: IZone[];
-  vertices: IVertex[];
-  edges: IEdge[];
-  constraints: IConstraint[];
+  vertices: IVertex<IBody>[];
+  edges: IEdge<IBody>[];
+  constraints: IConstraint<IBody>[];
 
   collision: ICollision;
 
@@ -76,9 +76,9 @@ export class World extends EventEmitter implements IWorld {
   
   bodies: IBody[] = [];
   zones: IZone[] = [];
-  vertices: IVertex[] = [];
-  edges: IEdge[] = [];
-  constraints: IConstraint[] = [];
+  vertices: IVertex<IBody>[] = [];
+  edges: IEdge<IBody>[] = [];
+  constraints: IConstraint<IBody>[] = [];
 
   collision: ICollision = new Collision(this);
 

@@ -1,5 +1,5 @@
 import { IDict, IPoint } from './interfaces';
-import { Body } from './Body';
+import { Body, IBody } from './Body';
 import { Vertex } from './Vertex';
 import { DistanceConstraint } from './constraints';
 import { Edge } from './Edge';
@@ -25,7 +25,11 @@ export interface ICreateBodyOpts {
 
 export function createBody(opts: ICreateBodyOpts): Body {
   const body = new Body();
+  applyBody(body, opts);
+  return body;
+}
 
+export function applyBody<T extends IBody>(body: T, opts: ICreateBodyOpts): void {
   if (opts.mass   !== undefined) { body.mass   = opts.mass;   }
   if (opts.layers !== undefined) { body.layers = opts.layers; }
 
@@ -57,8 +61,6 @@ export function createBody(opts: ICreateBodyOpts): Body {
       body.edges.push(edge);
     }    
   }
-  
-  return body;
 }
 
 export function createRectangleBody(pos: IPoint, size: IPoint): Body {

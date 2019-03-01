@@ -1,24 +1,20 @@
-import { IVertex } from './Vertex';
-import { Vec2, IVec2 } from './Vec2';
 import { EventEmitter } from './EventEmitter';
-import { IBoundingBox, ICollidable } from './interfaces';
-import { calculateBodyBoundingBox } from './util';
-import { PerfDict } from './PerfDict';
+import { IBoundingBox, IWorldObject, IPoint } from './interfaces';
+import { calculateBoundingBoxOfPoints } from './util';
+import { Vec2, IVec2 } from './Vec2';
 
-export interface IZone<T = any> extends IBoundingBox, ICollidable<T> {
+export interface IZone extends IBoundingBox, IWorldObject {
+  /** Points outlining the zone. */
+  points: IPoint[];
 }
 
-export class Zone<T = any> extends EventEmitter implements IZone<T> {
-  vertices: PerfDict<IVertex<T>> = new PerfDict();
-  center: Vec2 = new Vec2();
-  halfEx: Vec2 = new Vec2();
-  mass: number = 0;
-  isImmovable: boolean = true;
+export class Zone extends EventEmitter implements IZone {
+  points: IPoint[] = [];
   layers: number = 0;
-  gravity: IVec2 = new Vec2();
-  data: T | undefined = undefined;
+  center: IVec2 = new Vec2();
+  halfEx: IVec2 = new Vec2();
 
   updateBoundingBox(): void {
-    calculateBodyBoundingBox(this.vertices.array, this);
+    calculateBoundingBoxOfPoints(this.points, this);
   }
 }

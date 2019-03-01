@@ -7,13 +7,13 @@ import { IVec2, Vec2 } from '../Vec2';
  * Pin Constraint.
  * It "pins" a vertex to a specific point in space.
  */
-export class PinConstraint implements IConstraint {
-  parent: IBody;
-  v0: IVertex;
+export class PinConstraint<T extends IBody> implements IConstraint<T> {
+  parent: T;
+  v0: IVertex<T>;
   p1: IVec2 = new Vec2();
   dist2: number = 0;
 
-  constructor(parent: IBody, v0: IVertex, p1: IPoint) {
+  constructor(parent: T, v0: IVertex<T>, p1: IPoint) {
     this.parent = parent;
     this.v0 = v0;
     this.p1.copy(p1);

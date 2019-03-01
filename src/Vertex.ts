@@ -1,22 +1,23 @@
 import { IVec2, Vec2 } from './Vec2';
 import { IWorld } from './World';
-import { IPoint, ICollidable } from './interfaces';
+import { IPoint } from './interfaces';
+import { IBody } from './Body';
 
-export interface IVertex<T = any> {
-  parent: ICollidable<T>;
+export interface IVertex<T extends IBody = IBody> {
+  parent: T;
   position: IVec2;
   oldPosition: IVec2;
   /** If this should be "integrated" on each world frame. */
   doIntegrate: boolean;
 }
 
-export class Vertex<T> implements IVertex<T> {
-  parent: ICollidable<T>;
+export class Vertex<T extends IBody> implements IVertex<T> {
+  parent: T;
   position: IVec2 = new Vec2();
   oldPosition: IVec2 = new Vec2();
   doIntegrate: boolean = true;
 
-  constructor(parent: ICollidable<T>, pos: IPoint) {
+  constructor(parent: T, pos: IPoint) {
     this.parent = parent;
     this.position.copy(pos);
     this.oldPosition.copy(pos);
@@ -28,7 +29,7 @@ export class Vertex<T> implements IVertex<T> {
  * @param vertices Vertices to "integrate"
  * @param world World the vertices are part of
  */
-export function integrateVertices(vertices: IVertex[], world: IWorld): void {
+export function integrateVertices<T extends IBody>(vertices: IVertex<T>[], world: IWorld): void {
   const length = vertices.length;
   for (let i = 0; i < length; i++) {
     const vertex = vertices[i];

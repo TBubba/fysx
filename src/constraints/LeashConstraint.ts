@@ -9,18 +9,18 @@ import { IVec2 } from '../Vec2';
  * (When the distance between them is greater than "dist", it will pull
  *  v1 to v0 until their distance is smaller than "dist")
  */
-export class LeashConstraint implements IConstraint {
-  parent: IBody;
+export class LeashConstraint<T extends IBody> implements IConstraint<T> {
+  parent: T;
   /** Vertex that "holds" the leash. */
-  v0: IVertex;
+  v0: IVertex<T>;
   /** Vertex that is "bound" by the leash. */
-  v1: IVertex;
+  v1: IVertex<T>;
   /** Maximum distance between the vertices before the leash pulls one towards the other. */
   dist: number = 0;
   /** Maximum distance squared. Cached for performance reasons. */
   dist2: number = 0;
 
-  constructor(parent: IBody, v0: IVertex, v1: IVertex, dist: number) {
+  constructor(parent: T, v0: IVertex<T>, v1: IVertex<T>, dist: number) {
     this.parent = parent;
     this.v0 = v0;
     this.v1 = v1;

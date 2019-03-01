@@ -22,7 +22,7 @@ export function createAxis(min: number = 0, max: number = 0): IAxis {
  * @param boundingBox Bounding box to to update the values of. If undefined, a new bounding box will be created.
  * @returns The bounding box.
  */
-export function calculateBodyBoundingBox(vertices: IVertex[], boundingBox?: IBoundingBox): IBoundingBox {
+export function calculateBoundingBox<T extends IBody>(vertices: IVertex<T>[], boundingBox?: IBoundingBox): IBoundingBox {
   if (!boundingBox) { boundingBox = createBoundingBox(); }
 
   let minX =  Number.MAX_VALUE,
@@ -45,6 +45,30 @@ export function calculateBodyBoundingBox(vertices: IVertex[], boundingBox?: IBou
   return boundingBox;
 }
 
+/** Same as "calculateBoundingBox" but uses an array of points instead of vertices. */
+export function calculateBoundingBoxOfPoints(points: IPoint[], boundingBox?: IBoundingBox): IBoundingBox {
+  if (!boundingBox) { boundingBox = createBoundingBox(); }
+
+  let minX =  Number.MAX_VALUE,
+      minY =  Number.MAX_VALUE,
+      maxX = -Number.MAX_VALUE,
+      maxY = -Number.MAX_VALUE;
+
+  const len = points.length;
+  for (let i = 0; i < len; i++) {
+    const p = points[i];
+    if (p.x > maxX) { maxX = p.x; }
+    if (p.y > maxY) { maxY = p.y; }
+    if (p.x < minX) { minX = p.x; }
+    if (p.y < minY) { minY = p.y; }
+  }
+
+  boundingBox.center = new Vec2((minX + maxX) * 0.5, (minY + maxY) * 0.5);
+  boundingBox.halfEx = new Vec2((maxX - minX) * 0.5, (maxY - minY) * 0.5);
+
+  return boundingBox;
+}
+
 /**
  * ???
  * @param vertices ???
@@ -52,7 +76,7 @@ export function calculateBodyBoundingBox(vertices: IVertex[], boundingBox?: IBou
  * @param axis Axis to update the values of. If undefined, a new axis will be created.
  * @returns The axis.
  */
-export function projectAxis(vertices: IVertex[], vector: IPoint, axis?: IAxis): IAxis {
+export function projectAxis<T extends IBody>(vertices: IVertex<T>[], vector: IPoint, axis?: IAxis): IAxis {
   if (!axis) { axis = createAxis(); }
 
   let dot = vertices[0].position.dot(vector);
@@ -75,20 +99,20 @@ export function projectAxis(vertices: IVertex[], vector: IPoint, axis?: IAxis): 
  * @returns If the body is inside the zone.
  */
 export function isPointInsideZone(point: IPoint, zone: IZone): boolean {
-  if (zone.vertices.array.length === 0) { return false; }
+  if (zone.points.length === 0) { return false; }
 
   // A point outside the shape
   const outside = new Vec2(zone.center.x - zone.halfEx.x - 1,
                            zone.center.y - zone.halfEx.y - 1);
 
   // Count the number of edges the line (between outside and point) collides with
-  const verts = zone.vertices.array;
+  const points = zone.points;
   let p0;
-  let p1 = verts[0];
+  let p1 = points[0];
   let cols = 0;
-  for (let i = verts.length - 1; i >= 0; i--) {
-    p0 = verts[i];
-    const col = lineIntersection(outside, point, p0.position, p1.position);
+  for (let i = points.length - 1; i >= 0; i--) {
+    p0 = points[i];
+    const col = lineIntersection(outside, point, p0, p1);
     if (col.onLine1 && col.onLine2) { cols++; }
     p1 = p0;
   }

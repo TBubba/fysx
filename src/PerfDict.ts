@@ -14,7 +14,7 @@ export interface IPerfDict<T extends object> {
   dict: IDict<T>;
 
   /** Function that generates the keys for "push". */
-  generateKey: (perfDict: this, value: T) => string;
+  generateKey(perfDict: this, value: T): string;
   
   /**
    * Add a key / value pair to the dictionary and add the value to the end of the array.

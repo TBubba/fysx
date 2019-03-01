@@ -36,8 +36,8 @@ export class Collision implements ICollision {
   tangent: IVec2 = new Vec2();
   relTanVel: IVec2 = new Vec2();
   depth: number = 0;
-  edge: IEdge | undefined;
-  vertex: IVertex | undefined;
+  edge: IEdge<IBody> | undefined;
+  vertex: IVertex<IBody> | undefined;
 
   constructor(world?: IWorld) {
     this.world = world;
