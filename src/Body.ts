@@ -4,10 +4,11 @@ import { IVec2, Vec2 } from './Vec2';
 import { IPerfDict, PerfDict } from './PerfDict';
 import { calculateBodyBoundingBox } from './util';
 import { EventEmitter } from './EventEmitter';
+import { IEdge } from './Edge';
 
 /** Physics Body. */
 export interface IBody<T = any> extends IBoundingBox, ICollidable<T> {
-  edges: IConstraint<T>[];
+  edges: IEdge<T>[];
   constraints: IConstraint<T>[];
   meshes: IMesh<T>[];
   
@@ -26,7 +27,7 @@ export interface IBody<T = any> extends IBoundingBox, ICollidable<T> {
 
 export class Body<T = any> extends EventEmitter implements IBody<T> {
   vertices: IPerfDict<IVertex<T>> = new PerfDict();
-  edges: IConstraint<T>[] = [];
+  edges: IEdge<T>[] = [];
   constraints: IConstraint<T>[] = [];
   meshes: IMesh<T>[] = [];
   center: IVec2 = new Vec2();
@@ -43,17 +44,12 @@ export class Body<T = any> extends EventEmitter implements IBody<T> {
 
   addConstraint(constraint: IConstraint<T>): void {
     this.constraints.push(constraint);
-    if (constraint.edge) { this.edges.push(constraint); }
   }
 
   removeConstraint(constraint: IConstraint<T>): boolean {
     const index = this.constraints.indexOf(constraint);
     if (index === -1) { return false; }
     this.constraints.splice(index, 1);
-    
-    const edgeIndex = this.edges.indexOf(constraint);
-    if (edgeIndex >= 0) { this.edges.splice(edgeIndex, 1); }
-
     return true;
   }
 }

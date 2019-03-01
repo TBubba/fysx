@@ -17,11 +17,6 @@ export interface IPoint {
 export interface IConstraint<T = any> {
   /** Body the constraint belongs to. */
   parent: IBody<T>;
-  /**
-   * If this constraint is an edge.
-   * Edge constraints can collide with other constraint, non-edge constraint can not.
-   */
-  edge: boolean;
   /** Get the first position. */
   getPosition0(): IVec2;
   /** Get the second position. */

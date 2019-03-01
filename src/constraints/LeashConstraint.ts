@@ -11,7 +11,6 @@ import { IVec2 } from '../Vec2';
  */
 export class LeashConstraint implements IConstraint {
   parent: IBody;
-  edge: boolean = false;
   /** Vertex that "holds" the leash. */
   v0: IVertex;
   /** Vertex that is "bound" by the leash. */

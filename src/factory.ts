@@ -2,9 +2,13 @@ import { IDict, IMesh, IPoint } from './interfaces';
 import { Body } from './Body';
 import { Vertex } from './Vertex';
 import { DistanceConstraint } from './constraints';
+import { Edge } from './Edge';
 
-/** ([v0 key, v1 key, edge]) */
-export type ICreateBodyOptsConstraint = [string, string, boolean];
+/** ([v0 key, v1 key]) */
+export type ICreateBodyOptsConstraint = [string, string];
+
+/** ([v0 key, v1 key]) */
+export type ICreateBodyOptsEdge = [string, string];
 
 export interface ICreateBodyOptsMesh {
   /** Keys of the vertices the mesh consists of. The order is preserved. */
@@ -26,6 +30,8 @@ export interface ICreateBodyOpts {
   vertices?: IDict<IPoint>;
   /** Constraints to add to the body. */
   constraints?: ICreateBodyOptsConstraint[];
+  /** Edges to add to the body. */
+  edges?: ICreateBodyOptsEdge[];
   /** Meshes to add to the body. */
   meshes?: ICreateBodyOptsMesh[];
 }
@@ -47,10 +53,21 @@ export function createBody(opts: ICreateBodyOpts): Body {
       const v1 = body.vertices.dict[constraintOpts[1]];
       if (!v0) { throw new Error(`The v0 key in constraint options (with index ${i}) is not in use.`); }
       if (!v1) { throw new Error(`The v1 key in constraint options (with index ${i}) is not in use.`); }
-      const constraint = new DistanceConstraint(body, v0, v1, !!constraintOpts[2]);
+      const constraint = new DistanceConstraint(body, v0, v1);
       constraint.setSquaredDistance(v0.position.squareDistanceTo(v1.position));
-      if (constraint.edge) { body.edges.push(constraint); }
       body.constraints.push(constraint);
+    }    
+  }
+  
+  if (opts.edges) {
+    for (let i = 0; i < opts.edges.length; i++) {
+      const edgeOpts = opts.edges[i];
+      const v0 = body.vertices.dict[edgeOpts[0]];
+      const v1 = body.vertices.dict[edgeOpts[1]];
+      if (!v0) { throw new Error(`The v0 key in edge options (with index ${i}) is not in use.`); }
+      if (!v1) { throw new Error(`The v1 key in edge options (with index ${i}) is not in use.`); }
+      const edge = new Edge(body, v0, v1);
+      body.edges.push(edge);
     }    
   }
   
@@ -88,13 +105,19 @@ export function createRectangleBody(pos: IPoint, size: IPoint): Body {
     },
     constraints: [
       // Border
-      ['a', 'b', true],
-      ['b', 'c', true],
-      ['c', 'd', true],
-      ['d', 'a', true],
+      ['a', 'b'],
+      ['b', 'c'],
+      ['c', 'd'],
+      ['d', 'a'],
       // Cross
-      ['a', 'c', false],
-      ['b', 'd', false],
+      ['a', 'c'],
+      ['b', 'd'],
+    ],
+    edges: [
+      ['a', 'b'],
+      ['b', 'c'],
+      ['c', 'd'],
+      ['d', 'a'],
     ],
   });
 }

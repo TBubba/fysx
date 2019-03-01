@@ -1,9 +1,10 @@
 import { IWorld } from './World';
 import { IVec2, Vec2 } from './Vec2';
-import { IConstraint, IAxis } from './interfaces';
+import { IAxis } from './interfaces';
 import { IVertex } from './Vertex';
 import { IBody } from './Body';
 import { createAxis, projectAxis } from './util';
+import { IEdge } from './Edge';
 
 export interface ICollision {
   /**
@@ -35,7 +36,7 @@ export class Collision implements ICollision {
   tangent: IVec2 = new Vec2();
   relTanVel: IVec2 = new Vec2();
   depth: number = 0;
-  edge: IConstraint | undefined;
+  edge: IEdge | undefined;
   vertex: IVertex | undefined;
 
   constructor(world?: IWorld) {
@@ -64,7 +65,7 @@ export class Collision implements ICollision {
       // Get edge (first all from B0, then all from B1)
       const edge = i < n0 ? B0.edges[i] : B1.edges[i - n0];
       // Calculate the perpendicular to this edge and normalize it
-      this.testAxis.normal(edge.getPosition0(), edge.getPosition1());
+      this.testAxis.normal(edge.v0.position, edge.v1.position);
       // Project both bodies onto the normal
       projectAxis(B0.vertices.array, this.testAxis, this.b0Axis);
       projectAxis(B1.vertices.array, this.testAxis, this.b1Axis);
@@ -132,10 +133,10 @@ export class Collision implements ICollision {
     if (s0 && s1) { return; }
   
     // cache vertices positions
-    const p0 = edge.getPosition0(),
-          p1 = edge.getPosition1(),
-          o0 = edge.getOldPosition0(),
-          o1 = edge.getOldPosition1(),
+    const p0 = edge.v0.position,
+          p1 = edge.v1.position,
+          o0 = edge.v0.oldPosition,
+          o1 = edge.v1.oldPosition,
           vp = vertex.position,
           vo = vertex.oldPosition,
           rs = this.response;

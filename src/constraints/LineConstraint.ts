@@ -6,19 +6,16 @@ import { IVec2 } from '../Vec2';
 /**
  * Line Constraint.
  * It does not constrain the vertices at all, instead it only acts as a line between the two.
- * Useful for edges of static bodies.
  */
 export class LineConstraint implements IConstraint {
   parent: IBody;
-  edge: boolean;
   v0: IVertex;
   v1: IVertex;
 
-  constructor(parent: IBody, v0: IVertex, v1: IVertex, edge: boolean = false) {
+  constructor(parent: IBody, v0: IVertex, v1: IVertex) {
     this.parent = parent;
     this.v0 = v0;
     this.v1 = v1;
-    this.edge = edge;
   }
   
   getPosition0(): IVec2 {

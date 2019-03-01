@@ -10,17 +10,15 @@ import { IVec2 } from '../Vec2';
  */
 export class DistanceConstraint implements IConstraint {
   parent: IBody;
-  edge: boolean;
   v0: IVertex;
   v1: IVertex;
   /** Target distance squared (squared for performance reasons) */
   dist2: number = 0;
 
-  constructor(parent: IBody, v0: IVertex, v1: IVertex, edge: boolean = false) {
+  constructor(parent: IBody, v0: IVertex, v1: IVertex) {
     this.parent = parent;
     this.v0 = v0;
     this.v1 = v1;
-    this.edge = edge;
   }
   
   getPosition0(): IVec2 {

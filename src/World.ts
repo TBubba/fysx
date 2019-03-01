@@ -5,6 +5,7 @@ import { IBody } from './Body';
 import { ICollision, Collision } from './Collision';
 import { isBodyInZone } from './util';
 import { IEventEmitter, EventEmitter } from './EventEmitter';
+import { IEdge } from './Edge';
 
 interface ICollisionLink {
   c0: ICollidable<any>;
@@ -29,6 +30,7 @@ export interface IWorld extends IEventEmitter {
   bodies: IBody[];
   zones: IZone[];
   vertices: IVertex[];
+  edges: IEdge[];
   constraints: IConstraint[];
 
   collision: ICollision;
@@ -75,6 +77,7 @@ export class World extends EventEmitter implements IWorld {
   bodies: IBody[] = [];
   zones: IZone[] = [];
   vertices: IVertex[] = [];
+  edges: IEdge[] = [];
   constraints: IConstraint[] = [];
 
   collision: ICollision = new Collision(this);
@@ -167,10 +170,11 @@ export class World extends EventEmitter implements IWorld {
     // Add body to array
     this.bodies.push(body);
   
-    // Add body's vertices and constraints to world
+    // Add body's sub-elements to the world
     const push = Array.prototype.push;
-    push.apply(this.vertices,    body.vertices.array);
     push.apply(this.constraints, body.constraints);
+    push.apply(this.edges,       body.edges);
+    push.apply(this.vertices,    body.vertices.array);
 
     this.emit('add_body', body, this.bodies.length - 1);
 
@@ -184,9 +188,10 @@ export class World extends EventEmitter implements IWorld {
     // Remove body from array
     this.bodies.splice(index, 1);
   
-    // Remove body's vertices and constraints from world
-    remove(this.vertices, body.vertices.array);
+    // Remove body's sub-elements from the world
     remove(this.constraints, body.constraints);
+    remove(this.edges,       body.edges);
+    remove(this.vertices,    body.vertices.array);
 
     this.emit('remove_body', body, index);
     
