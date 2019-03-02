@@ -218,4 +218,13 @@ export class Vec2 implements IVec2 {
   static fromRadian(rad: number): Vec2 {
     return new Vec2(Math.cos(rad), Math.sin(rad));
   }
+  
+  /**
+   * Create a vector with values copied from a point.
+   * @param point Point to copy values from.
+   * @returns Vector with identical values as the point.
+   */
+  static fromPoint(point: IPoint): Vec2 {
+    return new Vec2(point.x, point.y);
+  }
 }
