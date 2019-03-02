@@ -54,15 +54,6 @@ export interface IVec2 extends IPoint {
   clone(): IVec2;
 }
 
-/**
- * Create a vector with length one pointing in a direction (radian).
- * @param rad Angle of direction in radians.
- * @returns Vector pointing in that direction with a length of one.
- */
-export function Vec2FromRadian(rad: number): Vec2 {
-  return new Vec2(Math.cos(rad), Math.sin(rad));
-}
-
 /** Generic 2D Vector Class. */
 export class Vec2 implements IVec2 {
   x: number;
@@ -217,5 +208,14 @@ export class Vec2 implements IVec2 {
   
   clone(): Vec2 {
     return new Vec2(this.x, this.y);
+  }
+
+  /**
+   * Create a vector with length one pointing in a direction (radian).
+   * @param rad Angle of direction in radians.
+   * @returns Vector pointing in that direction with a length of one.
+   */
+  static fromRadian(rad: number): Vec2 {
+    return new Vec2(Math.cos(rad), Math.sin(rad));
   }
 }
