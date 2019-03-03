@@ -1,7 +1,5 @@
-<div style="text-align: center;">
-  <h1>FYSX</h1>
-  <p>The Extensible 2D Physics Library for the Web & Node.</p>
-</div>
+<h1 align="center">FYSX</h1>
+<p align="center">The Extensible 2D Physics Library for the Web & Node.</p>
 
 ```typescript
 import * as FYSX from 'fysx';
