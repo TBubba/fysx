@@ -24,6 +24,8 @@ export interface IVec2 extends IPoint {
   scaleXY(x: number, y: number): this;
   /** Scale the values of this vector by the same factor. */
   scaleAll(scale: number): this;
+  /** Square the values of this vector (multiply each value with itself).*/
+  square(): this;
   /** Set the values of this vector to be the perpendicular of another vector. */
   perp(v: IPoint): this;
   /** Rotate this around another vector. */
@@ -127,6 +129,12 @@ export class Vec2 implements IVec2 {
   perp(v: IPoint): this {
     this.x = -v.y;
     this.y = v.x;
+    return this;
+  }
+  
+  square(): this {
+    this.x *= this.x;
+    this.y *= this.y;
     return this;
   }
   
