@@ -14,8 +14,8 @@ export interface IBody extends IBoundingBox, IWorldObject {
   constraints: IConstraint<this>[];
   /** Edges of the body. */
   edges: IEdge<this>[];
-  /** Gravity of all vertices of the body. */
-  gravity: IVec2;
+  /** Acceleration of all vertices of the body. */
+  acceleration: IVec2;
   /** Mass of each vertex in the body. */
   mass: number;
   /** If the body can not be moved from collisions. */
@@ -43,7 +43,7 @@ export class Body extends EventEmitter implements IBody {
   mass: number = 1;
   isImmovable: boolean = false;
   layers: number = 0x00000001;
-  gravity: IVec2 = new Vec2();
+  acceleration: IVec2 = new Vec2();
 
   updateBoundingBox(): void {
     calculateBoundingBox(this.vertices.array, this);

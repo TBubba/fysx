@@ -42,8 +42,8 @@ export function applyBody<T extends IBody>(body: T, opts: ICreateBodyOpts): void
       const constraintOpts = opts.constraints[i];
       const v0 = body.vertices.dict[constraintOpts[0]];
       const v1 = body.vertices.dict[constraintOpts[1]];
-      if (!v0) { throw new Error(`The v0 key in constraint options (with index ${i}) is not in use.`); }
-      if (!v1) { throw new Error(`The v1 key in constraint options (with index ${i}) is not in use.`); }
+      if (!v0) { throw new Error(`The v0 key in constraint options is not in use (key: "${constraintOpts[0]}", index: ${i}).`); }
+      if (!v1) { throw new Error(`The v1 key in constraint options is not in use (key: "${constraintOpts[1]}", index: ${i}).`); }
       const constraint = new DistanceConstraint(body, v0, v1);
       constraint.setSquaredDistance(v0.position.squareDistanceTo(v1.position));
       body.constraints.push(constraint);

@@ -102,7 +102,7 @@ export class Vec2 implements IVec2 {
     return this;
   }
   
-  subXY(x: number, y: number): this{
+  subXY(x: number, y: number): this {
     this.x -= x;
     this.y -= y;
     return this;

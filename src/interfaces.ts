@@ -15,14 +15,6 @@ export interface IPoint {
 export interface IConstraint<T extends IBody = IBody> {
   /** Body the constraint belongs to. */
   parent: T;
-  /** Get the first position. */
-  getPosition0(): IVec2;
-  /** Get the second position. */
-  getPosition1(): IVec2;
-  /** Get the first old position. */
-  getOldPosition0(): IVec2;
-  /** Get the second old position. */
-  getOldPosition1(): IVec2;
   /** Apply the constraint to the related vertices. */
   solve(): void;
 }

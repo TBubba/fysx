@@ -39,8 +39,8 @@ export function calculateBoundingBox<T extends IBody>(vertices: IVertex<T>[], bo
     if (p.y < minY) { minY = p.y; }
   }
 
-  boundingBox.center = new Vec2((minX + maxX) * 0.5, (minY + maxY) * 0.5);
-  boundingBox.halfEx = new Vec2((maxX - minX) * 0.5, (maxY - minY) * 0.5);
+  boundingBox.center.set((minX + maxX) * 0.5, (minY + maxY) * 0.5);
+  boundingBox.halfEx.set((maxX - minX) * 0.5, (maxY - minY) * 0.5);
 
   return boundingBox;
 }
@@ -63,8 +63,8 @@ export function calculateBoundingBoxOfPoints(points: IPoint[], boundingBox?: IBo
     if (p.y < minY) { minY = p.y; }
   }
 
-  boundingBox.center = new Vec2((minX + maxX) * 0.5, (minY + maxY) * 0.5);
-  boundingBox.halfEx = new Vec2((maxX - minX) * 0.5, (maxY - minY) * 0.5);
+  boundingBox.center.set((minX + maxX) * 0.5, (minY + maxY) * 0.5);
+  boundingBox.halfEx.set((maxX - minX) * 0.5, (maxY - minY) * 0.5);
 
   return boundingBox;
 }

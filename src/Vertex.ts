@@ -38,10 +38,10 @@ export function integrateVertices<T extends IBody>(vertices: IVertex<T>[], world
       const old = vertex.oldPosition;
       const x = pos.x;
       const y = pos.y;
-      const gravity = vertex.parent.gravity;
+      const acc = vertex.parent.acceleration;
 
-      pos.addXY(world.kViscosity * pos.x - world.kViscosity * old.x + gravity.x,
-                world.kViscosity * pos.y - world.kViscosity * old.y + gravity.y);
+      pos.addXY(world.kViscosity * pos.x - world.kViscosity * old.x + acc.x,
+                world.kViscosity * pos.y - world.kViscosity * old.y + acc.y);
 
       old.set(x, y);
       
