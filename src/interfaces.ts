@@ -48,3 +48,11 @@ export interface IWorldObject extends EventEmitter {
   /** Update the bounding box (center and halfEx). */
   updateBoundingBox(): void;
 }
+
+/** A rectangle. */
+export type IRect = {
+  x0: number;
+  y0: number;
+  x1: number;
+  y1: number;
+}

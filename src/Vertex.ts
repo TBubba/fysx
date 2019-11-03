@@ -46,15 +46,15 @@ export function integrateVertices<T extends IBody>(vertices: IVertex<T>[], world
       old.set(x, y);
       
       // Enforce world borders
-      if (world.hasBorders) {
-        if (pos.y < 0) { pos.y = 0; }
-        else if (pos.y > world.height) {
-          pos.set(pos.x - (pos.y - world.height) * (pos.x - old.x) * world.kFrictionGround,
-                  world.height);
+      if (world.border) {
+        if      (pos.y < world.border.y0) { pos.y = world.border.y0; }
+        else if (pos.y > world.border.y1) {
+          pos.x = pos.x - (pos.y - world.border.y1) * (pos.x - old.x) * world.kFrictionGround;
+          pos.y = world.border.y1;
         }
-        
-        if      (pos.x < 0)           { pos.x = 0;           }
-        else if (pos.x > world.width) { pos.x = world.width; }    
+
+        if      (pos.x < world.border.x0) { pos.x = world.border.x0; }
+        else if (pos.x > world.border.x1) { pos.x = world.border.x1; }  
       }
     }
   }

@@ -1,11 +1,11 @@
-import { IConstraint, IWorldObject } from './interfaces';
-import { IVertex, integrateVertices } from './Vertex';
-import { IZone } from './Zone';
 import { IBody } from './Body';
-import { ICollision, Collision } from './Collision';
-import { isBodyInZone } from './util';
-import { IEventEmitter, EventEmitter } from './EventEmitter';
+import { Collision, ICollision } from './Collision';
 import { IEdge } from './Edge';
+import { EventEmitter, IEventEmitter } from './EventEmitter';
+import { IConstraint, IRect, IWorldObject } from './interfaces';
+import { isBodyInZone } from './util';
+import { integrateVertices, IVertex } from './Vertex';
+import { IZone } from './Zone';
 
 interface ICollisionLink {
   c0: IWorldObject;
@@ -20,12 +20,7 @@ export interface IWorld extends IEventEmitter {
   kViscosity: number;
   kForceDrag: number;
 
-  /** If the vertices should stay inside the world borders (between {0, 0} and {world.width, world.height}). */
-  hasBorders: boolean;
-  /** X coordinate of the right-most side of the world border. */
-  width: number;
-  /** Y coordinate of the bottom-most side of the world border. */
-  height: number;
+  border?: IRect;
 
   bodies: IBody[];
   zones: IZone[];
@@ -70,9 +65,7 @@ export class World extends EventEmitter implements IWorld {
   kViscosity: number = 1.0;
   kForceDrag: number = 5;
 
-  hasBorders: boolean = false;
-  width: number = 0;
-  height: number = 0;
+  border?: IRect;
   
   bodies: IBody[] = [];
   zones: IZone[] = [];
