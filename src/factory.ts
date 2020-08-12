@@ -59,6 +59,8 @@ export function applyBody<T extends IBody>(body: T, opts: ICreateBodyOpts): void
       if (!v1) { throw new Error(`The v1 key in edge options (with index ${i}) is not in use.`); }
       const edge = new Edge(body, v0, v1);
       body.edges.push(edge);
+      v0.onEdge = true;
+      v1.onEdge = true;
     }    
   }
 }

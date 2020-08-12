@@ -30,9 +30,12 @@ export function calculateBoundingBox<T extends IBody>(vertices: IVertex<T>[], bo
       maxX = -Number.MAX_VALUE,
       maxY = -Number.MAX_VALUE;
 
-  const vCount = vertices.length;
-  for (let i = 0; i < vCount; i++) {
-    const p = vertices[i].position;
+  for (let i = 0; i < vertices.length; i++) {
+    const vertex = vertices[i];
+
+    if (!vertex.onEdge) { continue; }
+
+    const p = vertex.position;
     if (p.x > maxX) { maxX = p.x; }
     if (p.y > maxY) { maxY = p.y; }
     if (p.x < minX) { minX = p.x; }
@@ -76,17 +79,26 @@ export function calculateBoundingBoxOfPoints(points: IPoint[], boundingBox?: IBo
  * @param axis Axis to update the values of. If undefined, a new axis will be created.
  * @returns The axis.
  */
-export function projectAxis<T extends IBody>(vertices: IVertex<T>[], vector: IPoint, axis?: IAxis): IAxis {
-  if (!axis) { axis = createAxis(); }
+export function projectAxis<T extends IBody>(vertices: IVertex<T>[], vector: IPoint, axis: IAxis = createAxis()): IAxis {
+  let isFirst = true;
 
-  let dot = vertices[0].position.dot(vector);
-  axis.min = axis.max = dot;
+  axis.min = 0;
+  axis.max = 0;
 
-  const vCount = vertices.length;
-  for (let i = 1; i < vCount; i++) {
-    dot = vertices[i].position.dot(vector);
-    if (dot > axis.max) { axis.max = dot; }
-    if (dot < axis.min) { axis.min = dot; }
+  for (let i = 0; i < vertices.length; i++) {
+    const vertex = vertices[i];
+
+    if (!vertex.onEdge) { continue; }
+
+    const dot = vertices[i].position.dot(vector);
+    if (isFirst) {
+      axis.max = dot;
+      axis.min = dot;
+      isFirst = false;
+    } else {
+      if (dot > axis.max) { axis.max = dot; }
+      if (dot < axis.min) { axis.min = dot; }
+    }
   }
 
   return axis;

@@ -85,7 +85,7 @@ export class Collision implements ICollision {
     this.depth = minDistance;
   
     // Ensure collision edge in B1 and collision vertex in B0
-    if (this.edge && this.edge.parent != B1) {
+    if (this.edge && this.edge.parent !== B1) {
       let temp = B1;
       B1 = B0;
       B0 = temp;
@@ -131,7 +131,7 @@ export class Collision implements ICollision {
   
     // Don't resolve collision if both bodies are static (neither should be moved)
     if (s0 && s1) { return; }
-  
+
     // cache vertices positions
     const p0 = edge.v0.position,
           p1 = edge.v1.position,

@@ -9,6 +9,8 @@ export interface IVertex<T extends IBody = IBody> {
   oldPosition: IVec2;
   /** If this should be "integrated" on each world frame. */
   doIntegrate: boolean;
+  /** If this is part of an edge. */
+  onEdge: boolean;
 }
 
 export class Vertex<T extends IBody> implements IVertex<T> {
@@ -16,6 +18,7 @@ export class Vertex<T extends IBody> implements IVertex<T> {
   position: IVec2 = new Vec2();
   oldPosition: IVec2 = new Vec2();
   doIntegrate: boolean = true;
+  onEdge: boolean = false;
 
   constructor(parent: T, pos: IPoint) {
     this.parent = parent;

@@ -28,10 +28,22 @@ export interface IBody extends IBoundingBox, IWorldObject {
   addConstraint(constraint: IConstraint<this>): void;
   /**
    * Remove a constraint.
-   * @param constraint Constraint to remove
-   * @returns If the constraint was found and removed.
+   * @param constraint Constraint to remove.
+   * @returns If the constraint was removed.
    */
   removeConstraint(constraint: IConstraint<this>): boolean;
+  
+  /**
+   * Add an edge.
+   * @param edge Edge to add.
+   */
+  addEdge(edge: IEdge<this>): void;
+  /**
+   * Remove an edge.
+   * @param edge Edge to remove.
+   * @returns If the edge was removed.
+   */
+  removeEdge(edge: IEdge<this>): boolean;
 }
 
 export class Body extends EventEmitter implements IBody {
@@ -55,8 +67,34 @@ export class Body extends EventEmitter implements IBody {
 
   removeConstraint(constraint: IConstraint<this>): boolean {
     const index = this.constraints.indexOf(constraint);
+
     if (index === -1) { return false; }
+
     this.constraints.splice(index, 1);
+    return true;
+  }
+
+  addEdge(edge: IEdge<this>): void {
+    this.edges.push(edge);
+
+    edge.v0.onEdge = true;
+    edge.v1.onEdge = true;
+  }
+
+  removeEdge(edge: IEdge<this>): boolean {
+    const index = this.edges.indexOf(edge);
+
+    if (index === -1) { return false; }
+
+    this.edges.splice(index, 1);
+
+    if (this.edges.some(e => e.v0 === edge.v0 || e.v1 === edge.v0)) {
+      edge.v0.onEdge = false;
+    }
+    if (this.edges.some(e => e.v0 === edge.v1 || e.v1 === edge.v1)) {
+      edge.v1.onEdge = false;
+    }
+
     return true;
   }
 }
