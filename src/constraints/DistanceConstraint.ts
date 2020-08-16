@@ -30,8 +30,8 @@ export class DistanceConstraint<T extends IBody> implements IConstraint<T> {
     let dy = (p1.y - p0.y) || 0;
   
     // Square root approximation
-    const delta = dist2 / (dx*dx + dy*dy + dist2) - 0.5;
-  
+    const delta = (dist2 / (dx*dx + dy*dy + dist2) - 0.5) || 0;
+
     dx *= delta;
     dy *= delta;
   
