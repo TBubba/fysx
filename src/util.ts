@@ -206,3 +206,10 @@ export function lineIntersection(line1Start: IPoint, line1End: IPoint, line2Star
   
   return result;
 }
+
+/** Simplify an angle to a range between [-PI, PI]. */
+export function simplifyAngle(angle: number): number {
+  return (Math.abs(angle) > Math.PI)
+    ? angle + (((angle / (Math.PI * 2)) | 0) - Math.sign(angle)) * (Math.PI * 2)
+    : angle;
+}

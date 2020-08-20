@@ -1,5 +1,6 @@
 import { IBody } from '../Body';
 import { IConstraint } from '../interfaces';
+import { simplifyAngle } from '../util';
 import { IVertex } from '../Vertex';
 
 /**
@@ -19,8 +20,8 @@ export class AngleConstraint<T extends IBody> implements IConstraint<T> {
     this.v0 = v0;
     this.v1 = v1;
     this.v2 = v2;
-    this.min = angle(min);
-    this.max = angle(max);
+    this.min = simplifyAngle(min);
+    this.max = simplifyAngle(max);
     this.pow = pow;
   }
 
@@ -29,27 +30,16 @@ export class AngleConstraint<T extends IBody> implements IConstraint<T> {
     const p1 = this.v1.position;
     const p2 = this.v2.position;
 
-    const a1 = angle(p0.angleTo(p1));
-    const a2 = angle(p0.angleTo(p2));
+    const a1 = simplifyAngle(p0.angleTo(p1));
+    const a2 = simplifyAngle(p0.angleTo(p2));
 
     const range = Math.abs(this.max - this.min) * 0.5;
-    const dif = angle(angle(a1 + this.min - range) - a2);
+    const dif = simplifyAngle(simplifyAngle(a1 + this.min + range) - a2);
 
     if (Math.abs(dif) > range) {
-      const rot = (dif - range * sign(dif));
+      const rot = (dif - range * Math.sign(dif));
       p2.rotate(p0,  rot * this.pow);
       p1.rotate(p0, -rot * (1 - this.pow));
     }
   }
-}
-
-/** Simplify an angle to a range between [-PI, PI]. */
-function angle(angle: number): number {
-  return (Math.abs(angle) > Math.PI)
-    ? angle + (((angle / (Math.PI * 2)) | 0) - sign(angle)) * (Math.PI * 2)
-    : angle;
-}
-
-function sign(x: number): number {
-  return x ? x < 0 ? -1 : 1 : 0;
 }
